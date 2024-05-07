@@ -46,10 +46,17 @@ export default function App() {
   const tirarFoto = async () => {
     if (cameraRef) {
       let photo = await cameraRef.takePictureAsync();
-      console.log(photo);
+      setFoto(photo);
+    salvarFotoNoAlbum();
     }
   };
-  
+  const salvarFotoNoAlbum = async () => {
+    if (foto) {
+      const asset = await MediaLibrary.createAssetAsync(foto.uri);
+      await MediaLibrary.saveToAlbumAsync(asset, 'MeuAlbumDeFotos');
+      Alert.alert('Foto Salva', 'A foto foi salva no álbum com sucesso!');
+    }
+  };
   return (
     <View style={styles.container}>
       <Camera
